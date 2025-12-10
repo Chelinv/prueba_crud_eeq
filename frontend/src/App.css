@@ -1,0 +1,196 @@
+/* frontend/src/App.css */
+.main-container {
+    /* Define un ancho máximo para que el contenido no se estire demasiado */
+    max-width: 1200px; 
+    /* Margen automático a la izquierda y derecha para centrar el bloque */
+    margin-left: auto;
+    margin-right: auto;
+    /* Relleno interno para que no toque los bordes de la ventana */
+    padding: 0 20px; 
+}
+/* --- Base y Tipografía --- */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+/* --- Estilos del Login --- */
+.login-container {
+    max-width: 350px;
+    width: 100%;
+    padding: 30px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    background-color: white;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-field {
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.input-field:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+select.input-field {
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+    background-color: white;
+    cursor: pointer;
+}
+
+select.input-field:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.btn-primary {
+    padding: 12px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #555;
+}
+
+/* --- Estilos de Tabla y Dashboard --- */
+.table-dashboard {
+    max-width: 1000px; 
+    width: 100%;
+    margin: 40px auto; /* <-- CENTRA EL BLOQUE DEL DASHBOARD */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.add-button {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.add-button:hover {
+    background-color: #0056b3;
+}
+
+.clientes-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.clientes-table th {
+    padding: 12px 8px;
+    border-bottom: 2px solid #333;
+    text-align: left;
+    background-color: #f4f4f4;
+    font-weight: bold;
+    color: #333;
+}
+
+.clientes-table td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #eee;
+    color: #555;
+}
+
+.clientes-table tr:hover {
+    background-color: #f0f8ff; /* Resaltar fila al pasar el mouse */
+}
+
+/* --- Botones de Acción --- */
+.action-btn {
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.85em;
+    margin-right: 5px;
+    transition: opacity 0.2s;
+}
+
+.action-btn:hover {
+    opacity: 0.8;
+}
+
+.btn-edit {
+    background-color: white;
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+.btn-delete {
+    background-color: white;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+/* --- Modal --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    min-width: 400px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    border: 1px solid #ddd;
+}
+
+.modal-content h3 {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}

@@ -1,0 +1,11 @@
+--entrando en la carpeta backend
+
+cd backend
+
+venv\Scripts\activate
+
+uvicorn main:app --reload
+
+
+--entrando en la carpeta frontend
+npm run dev
