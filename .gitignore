@@ -31,6 +31,8 @@ dist/
 .DS_Store
 
 # Node
+backend.zip
+frontend.zip
 node_modules/
 npm-debug.log*
 yarn-debug.log*

@@ -1,10 +1,6 @@
 # CV_CRUD
 
 Proyecto CRUD (FastAPI + React) — instrucciones básicas para desarrollo y despliegue local.
-````markdown
-# CV_CRUD
-
-Proyecto CRUD (FastAPI + React) — instrucciones básicas para desarrollo y despliegue local.
 
 Requisitos
 - Python 3.10+ (virtualenv)
@@ -52,5 +48,4 @@ Si usas HTTPS y te pide credenciales, puedes configurar un Personal Access Token
 
 Notas
 - Asegúrate de no subir el virtualenv ni `node_modules` (están en `.gitignore`).
-````
-```
+- Si quieres, puedo crear el repo remoto (necesitarás autenticación `gh`), o generar un `.github/workflows` para CI.
