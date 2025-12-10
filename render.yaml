@@ -1,21 +1,26 @@
 services:
-  # ============================
-  # Backend - FastAPI (Python)
-  # ============================
-  - name: backend-fastapi
+  # ======================================
+  # BACKEND - FastAPI (Python)
+  # ======================================
+  - name: crud-backend
     type: web
-    env: python
+    runtime: python
     rootDir: backend
     buildCommand: "pip install -r requirements.txt"
     startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
+    plan: free
     autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 8000
 
-  # ============================
-  # Frontend - React + Vite
-  # ============================
-  - name: frontend-react
+  # ======================================
+  # FRONTEND - React + Vite (Static)
+  # ======================================
+  - name: crud-frontend
     type: static
     rootDir: frontend
     buildCommand: "npm install && npm run build"
     staticPublishPath: dist
+    plan: free
     autoDeploy: true
