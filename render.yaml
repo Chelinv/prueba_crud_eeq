@@ -1,7 +1,7 @@
 services:
-  # ======================================
+  # ======================================================
   # BACKEND - FastAPI (Python)
-  # ======================================
+  # ======================================================
   - name: crud-backend
     type: web
     runtime: python
@@ -14,11 +14,11 @@ services:
       - key: PORT
         value: 8000
 
-  # ======================================
-  # FRONTEND - React + Vite (Static)
-  # ======================================
+  # ======================================================
+  # FRONTEND - React + Vite (Static Site)
+  # ======================================================
   - name: crud-frontend
-    type: static
+    type: static_site     # << CORREGIDO
     rootDir: frontend
     buildCommand: "npm install && npm run build"
     staticPublishPath: dist
