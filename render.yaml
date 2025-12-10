@@ -10,11 +10,11 @@ services:
     startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
     autoDeploy: true
 
+staticSites:
   # =============================================================
-  # FRONTEND - React + Vite (Static)
+  # FRONTEND - React + Vite (Static Site)
   # =============================================================
   - name: crud-frontend
-    type: static       # ESTE ES EL VALOR CORRECTO
     rootDir: frontend
     buildCommand: "npm install && npm run build"
     staticPublishPath: dist
