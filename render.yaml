@@ -11,10 +11,10 @@ services:
     autoDeploy: true
 
   # =============================================================
-  # FRONTEND - React + Vite (Static Site)
+  # FRONTEND - React + Vite (Static)
   # =============================================================
   - name: crud-frontend
-    type: static_site
+    type: static       # ESTE ES EL VALOR CORRECTO
     rootDir: frontend
     buildCommand: "npm install && npm run build"
     staticPublishPath: dist
