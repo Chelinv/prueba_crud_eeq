@@ -1,10 +1,11 @@
+import os
 from sqlalchemy import create_engine, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# 1. Cadena de conexión (modifica estos valores según tu configuración)
+# 1. Cadena de conexión (lee de la variable de entorno DATABASE_URL o usa el valor por defecto local)
 # Formato: postgresql://USER:PASSWORD@HOST:PORT/DB_NAME
-DATABASE_URL = "postgresql://postgres:1234@localhost/prueba"
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:1234@localhost/prueba")
 
 # 2. Creación del motor de la base de datos
 engine = create_engine(DATABASE_URL)

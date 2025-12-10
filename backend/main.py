@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+import os
 import models
 import schemas
 from conexion import engine, get_db
@@ -11,10 +12,10 @@ from fastapi.middleware.cors import CORSMiddleware # << Importa esto
 
 app = FastAPI(title="API de Clientes")
 
-origins = [
-    "http://localhost:5173", 
-    "http://127.0.0.1:5173",
-]
+# Leer orígenes permitidos desde la variable de entorno CORS_ORIGINS
+# Formato: "https://mi-frontend.onrender.com,http://localhost:5173"
+cors_env = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
+origins = [o.strip() for o in cors_env.split(",") if o.strip()]
 
 app.add_middleware(
     CORSMiddleware,
