@@ -9,3 +9,4 @@ uvicorn main:app --reload
 
 --entrando en la carpeta frontend
 npm run dev
+

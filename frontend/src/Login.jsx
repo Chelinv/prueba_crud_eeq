@@ -26,7 +26,7 @@ function Login({ onLogin }) {
     if (!/[0-9]/.test(pwd)) {
       errors.push('Al menos un número');
     }
-    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwd)) {
+    if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(pwd)) {
       errors.push('Al menos un carácter especial (!@#$%^&* etc.)');
     }
     
@@ -101,7 +101,7 @@ function Login({ onLogin }) {
                 <li className={/[0-9]/.test(password) ? 'valid' : 'invalid'}>
                   ✓ Al menos un número
                 </li>
-                <li className={/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password) ? 'valid' : 'invalid'}>
+                <li className={/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password) ? 'valid' : 'invalid'}>
                   ✓ Al menos un carácter especial (!@#$%^&* etc.)
                 </li>
               </ul>

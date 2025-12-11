@@ -1,92 +1,65 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-import os
 import models
 import schemas
-from conexion import engine, get_db
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware # << Importa esto
+from conexion import engine, get_db, Base
 
-# Crea las tablas en la DB si no existen (solo para el primer uso/test)
-# models.Base.metadata.create_all(bind=engine)
+app = FastAPI(title="API PostgreSQL - Clientes")
 
-app = FastAPI(title="API de Clientes")
+# ⭐ Crear tablas automáticamente en Render y local
+@app.on_event("startup")
+def startup_event():
+    Base.metadata.create_all(bind=engine)
 
-# Leer orígenes permitidos desde la variable de entorno CORS_ORIGINS
-# Formato: "https://mi-frontend.onrender.com,http://localhost:5173"
-cors_env = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
-origins = [o.strip() for o in cors_env.split(",") if o.strip()]
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"], 
-    allow_headers=["*"], 
-)
-
-# --- CREATE (POST) ---
+# ---- CREATE ----
 @app.post("/clientes/", response_model=schemas.ClienteResponse, status_code=status.HTTP_201_CREATED)
 def create_cliente(cliente: schemas.ClienteCreate, db: Session = Depends(get_db)):
-    """Crea un nuevo cliente en la base de datos."""
-    
-    db_cliente = models.ClienteDB(
+    new_client = models.ClienteDB(
         cliente=cliente.cliente,
         tipo_factura=cliente.tipo_factura,
         precios=cliente.precios
     )
-    db.add(db_cliente)
+    db.add(new_client)
     db.commit()
-    db.refresh(db_cliente)
-    return db_cliente
+    db.refresh(new_client)
+    return new_client
 
-# --- READ (GET - Todos) ---
+# ---- READ ALL ----
 @app.get("/clientes/", response_model=list[schemas.ClienteResponse])
-def read_clientes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    """Obtiene una lista de clientes con paginación."""
-    
-    clientes = db.query(models.ClienteDB).offset(skip).limit(limit).all()
-    return clientes
+def read_clientes(db: Session = Depends(get_db)):
+    return db.query(models.ClienteDB).all()
 
-# --- READ (GET - Por ID) ---
+# ---- READ BY ID ----
 @app.get("/clientes/{cliente_id}", response_model=schemas.ClienteResponse)
 def read_cliente(cliente_id: int, db: Session = Depends(get_db)):
-    """Obtiene un cliente específico por su ID."""
-    
-    db_cliente = db.query(models.ClienteDB).filter(models.ClienteDB.id == cliente_id).first()
-    if db_cliente is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cliente no encontrado")
-    return db_cliente
+    cliente = db.query(models.ClienteDB).filter(models.ClienteDB.id == cliente_id).first()
+    if not cliente:
+        raise HTTPException(status_code=404, detail="Cliente no encontrado")
+    return cliente
 
-# --- UPDATE (PUT/PATCH) ---
+# ---- UPDATE ----
 @app.patch("/clientes/{cliente_id}", response_model=schemas.ClienteResponse)
-def update_cliente(cliente_id: int, cliente_update: schemas.ClienteUpdate, db: Session = Depends(get_db)):
-    """Actualiza parcialmente un cliente existente por su ID."""
-    
-    db_cliente = db.query(models.ClienteDB).filter(models.ClienteDB.id == cliente_id).first()
-    if db_cliente is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cliente no encontrado")
+def update_cliente(cliente_id: int, data: schemas.ClienteUpdate, db: Session = Depends(get_db)):
+    cliente = db.query(models.ClienteDB).filter(models.ClienteDB.id == cliente_id).first()
+    if not cliente:
+        raise HTTPException(status_code=404, detail="Cliente no encontrado")
 
-    # Itera sobre los campos actualizables y aplica los cambios si no son None
-    update_data = cliente_update.model_dump(exclude_unset=True)
-    for key, value in update_data.items():
-        setattr(db_cliente, key, value)
+    updates = data.model_dump(exclude_unset=True)
+    for key, value in updates.items():
+        setattr(cliente, key, value)
 
     db.commit()
-    db.refresh(db_cliente)
-    return db_cliente
+    db.refresh(cliente)
+    return cliente
 
-# --- DELETE (DELETE) ---
+# ---- DELETE ----
 @app.delete("/clientes/{cliente_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_cliente(cliente_id: int, db: Session = Depends(get_db)):
-    """Elimina un cliente existente por su ID."""
-    
-    db_cliente = db.query(models.ClienteDB).filter(models.ClienteDB.id == cliente_id)
-    
-    if db_cliente.first() is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cliente no encontrado")
-    
-    db_cliente.delete(synchronize_session=False)
+    cliente = db.query(models.ClienteDB).filter(models.ClienteDB.id == cliente_id).first()
+    if not cliente:
+        raise HTTPException(status_code=404, detail="Cliente no encontrado")
+
+    db.delete(cliente)
     db.commit()
     return {"ok": True}
-

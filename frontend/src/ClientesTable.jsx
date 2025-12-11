@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/clientes/'; 
+const API_URL = '/api/clientes/';
+
 
 // --- Componente Modal ---
 const ClienteFormModal = ({ clienteData, onClose, onSave, isEditing }) => {
@@ -77,11 +78,12 @@ function ClientesTable() {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(API_URL);
+      const response = await axios.get(`${API_URL}`, { timeout: 15000 });
+      console.log("URL llamada:", API_URL);
       setClientes(response.data);
     } catch (err) {
       console.error("Error al cargar clientes:", err);
-      setError("No se pudo conectar al Backend. Asegúrate de que FastAPI esté corriendo en http://localhost:8000.");
+      setError("No se pudo conectar al Backend en Render. Intenta recargar o verificar disponibilidad.");
     } finally {
       setLoading(false);
     }
@@ -91,9 +93,9 @@ function ClientesTable() {
   const handleDelete = async (id) => {
     if (window.confirm('¿Estás seguro de que quieres eliminar este cliente?')) {
         try {
-            await axios.delete(`${API_URL}${id}`);
+            await axios.delete(`${API_URL}${id}`, { timeout: 15000 });
             fetchClientes();
-        } catch (error) {
+        } catch {
             alert('Error al eliminar el cliente.');
         }
     }
@@ -102,10 +104,10 @@ function ClientesTable() {
   // CREATE (Añadir) (Lógica sin cambios)
   const handleCreate = async (newClienteData) => {
       try {
-          await axios.post(API_URL, newClienteData);
+          await axios.post(API_URL, newClienteData, { timeout: 15000 });
           setShowCreateModal(false);
           fetchClientes();
-      } catch (error) {
+      } catch {
           alert('Error al crear el cliente.');
       }
   };
@@ -117,10 +119,10 @@ function ClientesTable() {
           const dataToSend = { ...updatedData };
           delete dataToSend.id; 
           
-          await axios.patch(`${API_URL}${id}`, dataToSend);
+          await axios.patch(`${API_URL}${id}`, dataToSend, { timeout: 15000 });
           setEditClient(null); 
           fetchClientes(); 
-      } catch (error) {
+      } catch {
           alert('Error al actualizar el cliente. Revisa el valor ingresado.');
       }
   };
