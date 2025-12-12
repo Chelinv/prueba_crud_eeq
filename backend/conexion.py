@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 # ================================
 # 1. OBTENER DATABASE_URL
 # ================================
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = "postgresql://crud_db_e25g_user:B59N3tXf76ErC4JJSQwHzLEjhxBgTwJN@dpg-d4sr89i4d50c73d3ud6g-a.oregon-postgres.render.com/crud_db_e25g"
 if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL no está configurada")
 

@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_URL = '/api/clientes/';
+const API_BASE = import.meta.env.PROD ? 'https://backend-eeq-10.onrender.com' : '/api';
+const API_URL = `${API_BASE}/clientes/`;
 
 
 // --- Componente Modal ---
